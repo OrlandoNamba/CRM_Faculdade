@@ -1,7 +1,8 @@
 import sqlite3
+from conexao import conectar_banco
 
-conexao = sqlite3.connect('database/crm.db') #Conecta ao banco de dados "crm.db", e armazena a conexão na variável "conexao"
-cursor = conexao.cursor() #Cria um cursor para executar comandos SQL, e armazena o cursor na variável "cursor"
+conexao = conectar_banco() # Chama a função "conectar_banco" para obter a conexão com o banco de dados e armazena a conexão na variável "conexao"
+cursor = conexao.cursor() # Cria um cursor para executar comandos SQL, e armazena o cursor na variável "cursor"
 
 cursor.execute("""
 INSERT INTO clientes (nome, cpf, cidade, telefone) 
