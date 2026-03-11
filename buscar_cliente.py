@@ -3,7 +3,7 @@ import sqlite3
 conexao = sqlite3.connect('database/crm.db') # Conecta ao banco de dados "crm.db", e armazena a conexão na variável "conexao"
 cursor = conexao.cursor() # Cria um cursor para executar comandos SQL, e armazena o cursor na variável "cursor"
 
-cpf = 12345678901 # CPF do cliente a ser buscado
+cpf = input("Digite o CPF do cliente: ") # Solicita ao usuário que digite o CPF do cliente e armazena a entrada na variável "cpf"
 
 cursor.execute("SELECT * FROM clientes WHERE cpf = ?",
                (cpf,)) # Executa um comando SQL para selecionar o cliente com o CPF especificado, usando um parâmetro para evitar SQL injection
