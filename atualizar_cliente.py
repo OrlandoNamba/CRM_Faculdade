@@ -1,4 +1,3 @@
-import sqlite3
 from conexao import conectar_banco
 
 conexao = conectar_banco() # Chama a função "conectar_banco" para obter a conexão com o banco de dados e armazena a conexão na variável "conexao"
