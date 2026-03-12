@@ -12,11 +12,11 @@ def listar_clientes():
 
     else:
         for cliente in clientes:
-            print("ID:", cliente[0])
-            print("Nome:", cliente[1])
-            print("CPF:", cliente[2])
-            print("Cidade:", cliente[3])
-            print("Telefone:", cliente[4])
+            print("ID:", cliente["id_cliente"])
+            print("Nome:", cliente["nome"])
+            print("CPF:", cliente["cpf"])
+            print("Cidade:", cliente["cidade"])
+            print("Telefone:", cliente["telefone"])
             print("-" * 20)
 
     conexao.close()
