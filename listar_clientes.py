@@ -8,7 +8,12 @@ def listar_clientes():
     clientes = cursor.fetchall() #Armazena os resultados da consulta na variável "clientes"
 
     for cliente in clientes:
-        print(cliente) #Cada cliente vai ser mostrado como uma tupla, onde cada elemento da tupla corresponde a uma coluna da tabela "clientes"
+        print("ID:", cliente[0])
+        print("Nome:", cliente[1])
+        print("CPF:", cliente[2])
+        print("Cidade:", cliente[3])
+        print("Telefone:", cliente[4])
+        print("-" * 20)
 
     conexao.close() #Fecha a conexão com o banco de dados
 
