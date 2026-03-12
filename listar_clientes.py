@@ -7,15 +7,19 @@ def listar_clientes():
     cursor.execute("SELECT * FROM clientes") #Executa um comando SQL para selecionar todos os registros da tabela "clientes"
     clientes = cursor.fetchall() #Armazena os resultados da consulta na variável "clientes"
 
-    for cliente in clientes:
-        print("ID:", cliente[0])
-        print("Nome:", cliente[1])
-        print("CPF:", cliente[2])
-        print("Cidade:", cliente[3])
-        print("Telefone:", cliente[4])
-        print("-" * 20)
+    if not clientes:
+        print("Nenhum cliente encontrado.")
 
-    conexao.close() #Fecha a conexão com o banco de dados
+    else:
+        for cliente in clientes:
+            print("ID:", cliente[0])
+            print("Nome:", cliente[1])
+            print("CPF:", cliente[2])
+            print("Cidade:", cliente[3])
+            print("Telefone:", cliente[4])
+            print("-" * 20)
+
+    conexao.close()
 
 if __name__ == "__main__":
     listar_clientes()
