@@ -6,7 +6,7 @@ def buscar_cliente(cpf = None):
     cursor = conexao.cursor() # Cria um cursor para executar comandos SQL, e armazena o cursor na variável "cursor"
 
     if cpf is None:
-        cpf = input("Digite o CPF do cliente: ") # Solicita ao usuário que digite o CPF do cliente e armazena a entrada na variável "cpf"
+        cpf = input("Digite o CPF do cliente: ") 
 
     cursor.execute("SELECT * FROM clientes WHERE cpf = ?",
                 (cpf,)) # Executa um comando SQL para selecionar o cliente com o CPF especificado, usando um parâmetro para evitar SQL injection
@@ -14,8 +14,15 @@ def buscar_cliente(cpf = None):
     cliente = cursor.fetchone() # Armazena o resultado da consulta na variável "cliente"
 
     if cliente:
-        print(cliente) # Se o cliente for encontrado, imprime os detalhes do cliente
+        print("ID:", cliente["id_cliente"])
+        print("Nome:", cliente["nome"])
+        print("CPF:", cliente["cpf"])
+        print("Cidade:", cliente["cidade"])
+        print("Telefone:", cliente["telefone"]) 
     else:
-        print("Cliente não encontrado.") # Se o cliente não for encontrado, imprime uma mensagem indicando que o cliente não foi encontrado
+        print("Cliente não encontrado.")
 
     conexao.close() # Fecha a conexão com o banco de dados
+
+if __name__ == "__main__":
+    buscar_cliente()
