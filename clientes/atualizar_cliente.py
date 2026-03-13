@@ -1,4 +1,4 @@
-from conexao import conectar_banco
+from database.conexao import conectar_banco
 from cliente_utils import mostrar_cliente
 
 

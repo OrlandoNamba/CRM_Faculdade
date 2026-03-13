@@ -1,5 +1,5 @@
 import sqlite3
-from conexao import conectar_banco
+from database.conexao import conectar_banco
 from buscar_cliente import buscar_cliente
 
 def inserir_cliente():
