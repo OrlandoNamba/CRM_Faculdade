@@ -1,5 +1,5 @@
 from conexao import conectar_banco
-
+from cliente_utils import mostrar_cliente
 
 def buscar_cliente(cpf = None):
     conexao = conectar_banco() # Chama a função "conectar_banco" para obter a conexão com o banco de dados e armazena a conexão na variável "conexao"
@@ -14,11 +14,7 @@ def buscar_cliente(cpf = None):
     cliente = cursor.fetchone() # Armazena o resultado da consulta na variável "cliente"
 
     if cliente:
-        print("ID:", cliente["id_cliente"])
-        print("Nome:", cliente["nome"])
-        print("CPF:", cliente["cpf"])
-        print("Cidade:", cliente["cidade"])
-        print("Telefone:", cliente["telefone"]) 
+        mostrar_cliente(cliente) 
     else:
         print("Cliente não encontrado.")
 

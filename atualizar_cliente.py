@@ -1,4 +1,5 @@
 from conexao import conectar_banco
+from cliente_utils import mostrar_cliente
 
 
 def atualizar_cliente():
@@ -13,13 +14,12 @@ def atualizar_cliente():
 
     if cliente:
         print("Cliente encontrado:")
-        print("Nome:", cliente["nome"])
-        print("CPF:", cliente["cpf"])
-        print("Cidade:", cliente["cidade"])
-        print("Telefone:", cliente["telefone"])
+        mostrar_cliente(cliente)
+
         novo_nome = input("Novo Nome (ENTER para manter o atual): ")
         nova_cidade = input("Nova Cidade (ENTER para manter a atual): ")
         novo_telefone = input("Novo Telefone (ENTER para manter o atual): ")
+        
         cursor.execute("UPDATE clientes SET nome = ?, cidade = ?, telefone = ? WHERE cpf = ?",
                     (novo_nome, nova_cidade, novo_telefone, cpf)) # Executa um comando SQL para atualizar o telefone do cliente com o CPF especificado, usando parâmetros para evitar SQL injection
         
