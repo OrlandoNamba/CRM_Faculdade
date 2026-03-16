@@ -22,13 +22,13 @@ while True: # Inicia um loop infinito para exibir o menu e processar as opções
     elif opcao == "2":
         listar_clientes() 
     elif opcao == "3":
-        pass
+        buscar_cliente()
     elif opcao == "4":
-        pass
+        atualizar_cliente()
     elif opcao == "5":
-        pass
+        deletar_cliente()
     elif opcao == "0":
         print("Saindo do programa...")
-        break # Sai do loop e encerra o programa
+        break
     else:
         print("Opção inválida. Tente novamente.")
