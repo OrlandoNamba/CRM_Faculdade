@@ -1,5 +1,5 @@
 from database.conexao import conectar_banco
-from cliente_utils import mostrar_cliente
+from clientes.cliente_utils import mostrar_cliente
 
 def listar_clientes():
     conexao = conectar_banco() # Chama a função "conectar_banco" para obter a conexão com o banco de dados e armazena a conexão na variável "conexao"

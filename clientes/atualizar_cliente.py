@@ -1,5 +1,5 @@
 from database.conexao import conectar_banco
-from cliente_utils import mostrar_cliente
+from clientes.cliente_utils import mostrar_cliente
 
 
 def atualizar_cliente():

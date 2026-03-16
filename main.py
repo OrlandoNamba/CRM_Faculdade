@@ -1,6 +1,10 @@
 from database.conexao import conectar_banco
 from clientes.inserir_cliente import inserir_cliente
 from clientes.listar_clientes import listar_clientes
+from clientes.buscar_cliente import buscar_cliente
+from clientes.atualizar_cliente import atualizar_cliente
+from clientes.deletar_cliente import deletar_cliente
+from clientes.cliente_utils import mostrar_cliente
 
 while True: # Inicia um loop infinito para exibir o menu e processar as opções do usuário
     print("\n===== CRM =====")

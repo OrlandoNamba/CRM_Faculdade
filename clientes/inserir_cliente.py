@@ -1,6 +1,8 @@
 import sqlite3
 from database.conexao import conectar_banco
-from buscar_cliente import buscar_cliente
+from clientes.buscar_cliente import buscar_cliente
+from validacoes.validacoes import validar_cpf, validar_telefone
+from clientes.cliente_utils import mostrar_cliente
 
 def inserir_cliente():
     
@@ -11,6 +13,16 @@ def inserir_cliente():
     cpf = input("Digite o CPF do cliente: ")
     cidade = input("Digite a cidade do cliente: ")
     telefone = input("Digite o telefone do cliente: ")
+
+    if not validar_cpf(cpf):
+        print("Erro: O CPF deve conter 11 dígitos numéricos.")
+        conexao.close()
+        return
+
+    if not validar_telefone(telefone):
+        print("Erro: O telefone deve conter 10 ou 11 dígitos numéricos.")
+        conexao.close()
+        return
 
     try:
         cursor.execute("""
