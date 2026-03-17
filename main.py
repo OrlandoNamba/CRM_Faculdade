@@ -1,5 +1,5 @@
 from database.conexao import conectar_banco
-from clientes.inserir_cliente import inserir_cliente
+from clientes.services import cadastrar_cliente
 from clientes.listar_clientes import listar_clientes
 from clientes.buscar_cliente import buscar_cliente
 from clientes.atualizar_cliente import atualizar_cliente
@@ -18,7 +18,27 @@ while True: # Inicia um loop infinito para exibir o menu e processar as opções
     opcao = input("Escolha uma opção: ") # Solicita ao usuário que escolha uma opção do menu e armazena a entrada na variável "opcao"
 
     if opcao == "1":
-        inserir_cliente()
+        nome = input("Digite o nome do cliente: ")
+        cpf = input("Digite o CPF do cliente: ")
+        cidade = input("Digite a cidade do cliente: ")
+        telefone = input("Digite o telefone do cliente: ")
+
+        resultado = cadastrar_cliente(nome, cpf, cidade, telefone) # Chama a função "cadastrar_cliente" com os dados fornecidos pelo usuário e armazena o resultado na variável "resultado"
+
+        if resultado == "sucesso":
+            print("Cliente cadastrado com sucesso!")
+            print("Dados do cliente:")
+            buscar_cliente(cpf)
+
+        elif resultado == "cpf_invalido":
+            print("CPF inválido. O CPF deve conter 11 dígitos numéricos.")
+
+        elif resultado == "telefone_invalido":
+            print("Telefone inválido. O telefone deve conter 10 ou 11 dígitos numéricos.")
+
+        elif resultado == "cpf_existente":
+            print("CPF já existente. O CPF fornecido já está cadastrado no sistema.")
+            
     elif opcao == "2":
         listar_clientes() 
     elif opcao == "3":
