@@ -1,4 +1,4 @@
-from clientes.services import (
+from core_clientes.services import (
     cadastrar_cliente,
     obter_cliente_por_cpf,
     obter_todos_clientes,
@@ -6,7 +6,7 @@ from clientes.services import (
     deletar_cliente_service
 )
 
-from clientes.cliente_utils import mostrar_cliente
+from core_clientes.cliente_utils import mostrar_cliente
 
 
 while True:
