@@ -5,6 +5,7 @@
         {% for cliente in clientes %}
             <li>
                 {{ cliente.nome }} - {{ cliente.cpf }} - {{ cliente.cidade }} - {{ cliente.telefone }}
+                <a href="/clientes/editar/{{ cliente.cpf }}/">Editar</a>
             </li>
         {% endfor %}
     </ul>

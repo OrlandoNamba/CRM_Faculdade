@@ -1,0 +1,23 @@
+<h1>Editar Cliente</h1>
+
+{% if erro %}
+    <p style="color:red;">Erro: {{ erro }}</p>
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label>Nome:</label><br>
+    <input type="text" name="nome" value="{{ cliente.nome }}"><br><br>
+
+    <label>CPF:</label><br>
+    <input type="text" value="{{ cliente.cpf }}" disabled><br><br>
+
+    <label>Cidade:</label><br>
+    <input type="text" name="cidade" value="{{ cliente.cidade }}"><br><br>
+
+    <label>Telefone:</label><br>
+    <input type="text" name="telefone" value="{{ cliente.telefone }}"><br><br>
+
+    <button type="submit">Salvar</button>
+</form>
