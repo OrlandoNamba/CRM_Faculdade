@@ -6,6 +6,11 @@
             <li>
                 {{ cliente.nome }} - {{ cliente.cpf }} - {{ cliente.cidade }} - {{ cliente.telefone }}
                 <a href="/clientes/editar/{{ cliente.cpf }}/">Editar</a>
+
+                <form action="/clientes/deletar/{{ cliente.cpf }}/" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Deletar</button>
+                </form>
             </li>
         {% endfor %}
     </ul>

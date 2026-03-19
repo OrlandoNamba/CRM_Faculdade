@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from core_clientes.services import obter_todos_clientes
 from core_clientes.services import cadastrar_cliente
 from core_clientes.services import obter_cliente_por_cpf, atualizar_cliente_service
+from core_clientes.services import deletar_cliente_service
 
 def listar_clientes_view(request):
     clientes = obter_todos_clientes()
@@ -57,3 +58,8 @@ def editar_cliente_view(request, cpf):
     return render(request, 'clientes/editar_clientes.html', {
         'cliente': cliente
     })
+
+def deletar_cliente_view(request, cpf):
+    if request.method == 'POST':
+        deletar_cliente_service(cpf)
+        return redirect('/clientes/')
