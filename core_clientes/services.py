@@ -38,8 +38,4 @@ def atualizar_cliente_service(id_cliente, nome, cpf, cidade, telefone):
     return resultado
 
 def deletar_cliente_service(cpf):
-    if not validar_cpf(cpf):
-        return "cpf_invalido"
-
-    resultado = deletar_cliente_por_cpf(cpf)
-    return resultado
+    return deletar_cliente_por_cpf(cpf)
