@@ -1,0 +1,13 @@
+<h1>Lista de Clientes</h1>
+
+{% if clientes %}
+    <ul>
+        {% for cliente in clientes %}
+            <li>
+                {{ cliente.nome }} - {{ cliente.cpf }} - {{ cliente.cidade }} - {{ cliente.telefone }}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Nenhum cliente encontrado.</p>
+{% endif %}
