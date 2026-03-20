@@ -9,7 +9,9 @@
 <nav class="navbar navbar-dark bg-dark mb-4">
     <div class="container">
         <span class="navbar-brand">CRM</span>
-        <a href="/clientes/" class="btn btn-light btn-sm">Clientes</a>
+        {% if request.resolver_match.url_name != 'listar_clientes' %}
+            <a href="{% url 'listar_clientes' %}" class="btn btn-light btn-sm">Todos os Clientes</a>
+        {% endif %}
     </div>
 </nav>
 
