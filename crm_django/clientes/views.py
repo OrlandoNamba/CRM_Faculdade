@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from core_clientes.services import obter_todos_clientes
 from core_clientes.services import cadastrar_cliente
 from core_clientes.services import obter_cliente_por_cpf, atualizar_cliente_service
@@ -21,11 +22,20 @@ def cadastrar_cliente_view(request):
         resultado = cadastrar_cliente(nome, cpf, cidade, telefone)
 
         if resultado == "sucesso":
+            messages.success(request, "Cliente cadastrado com sucesso!")
             return redirect('/clientes/')
-        
-        return render(request, 'clientes/cadastrar_clientes.html', {
-            'erro': resultado
-        })
+
+        elif resultado == "cpf_invalido":
+            messages.error(request, "CPF inválido.")
+
+        elif resultado == "telefone_invalido":
+            messages.error(request, "Telefone inválido.")
+
+        elif resultado == "cpf_existente":
+            messages.error(request, "CPF já cadastrado.")
+
+        # 👇 ESSENCIAL
+        return render(request, 'clientes/cadastrar_clientes.html')
 
     return render(request, 'clientes/cadastrar_clientes.html')
 

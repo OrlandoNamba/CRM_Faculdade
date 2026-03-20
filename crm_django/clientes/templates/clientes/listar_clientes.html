@@ -1,19 +1,41 @@
-<h1>Lista de Clientes</h1>
+<div class="container mt-4">
+    <h1 class="mb-4">Lista de Clientes</h1>
 
-{% if clientes %}
-    <ul>
-        {% for cliente in clientes %}
-            <li>
-                {{ cliente.nome }} - {{ cliente.cpf }} - {{ cliente.cidade }} - {{ cliente.telefone }}
-                <a href="/clientes/editar/{{ cliente.cpf }}/">Editar</a>
+    <a href="/clientes/cadastrar/" class="btn btn-primary mb-3">Novo Cliente</a>
 
-                <form action="/clientes/deletar/{{ cliente.cpf }}/" method="POST" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit">Deletar</button>
-                </form>
-            </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>Nenhum cliente encontrado.</p>
-{% endif %}
+    {% if clientes %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Cidade</th>
+                    <th>Telefone</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cliente in clientes %}
+                <tr>
+                    <td>{{ cliente.nome }}</td>
+                    <td>{{ cliente.cpf }}</td>
+                    <td>{{ cliente.cidade }}</td>
+                    <td>{{ cliente.telefone }}</td>
+                    <td>
+                        <a href="/clientes/editar/{{ cliente.cpf }}/" class="btn btn-warning btn-sm">Editar</a>
+
+                        <form action="/clientes/deletar/{{ cliente.cpf }}/" method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <button class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza?')">
+                                Deletar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Nenhum cliente encontrado.</p>
+    {% endif %}
+</div>

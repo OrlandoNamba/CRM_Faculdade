@@ -4,6 +4,14 @@
     <p style="color:red;">Erro: {{ erro }}</p>
 {% endif %}
 
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
 <form method="POST">
     {% csrf_token %}
 
