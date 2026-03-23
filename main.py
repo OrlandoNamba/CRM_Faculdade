@@ -8,6 +8,10 @@ from core_clientes.services import (
 
 from core_clientes.cliente_utils import mostrar_cliente
 
+from database.criar_banco import criar_tabelas
+
+criar_tabelas()
+
 
 while True:
     print("\n===== CRM =====")
