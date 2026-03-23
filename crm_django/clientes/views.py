@@ -26,8 +26,16 @@ def cadastrar_cliente_view(request):
         cpf = request.POST.get('cpf')
         cidade = request.POST.get('cidade')
         telefone = request.POST.get('telefone')
+        telefone2 = request.POST.get('telefone2')
+        telefone3 = request.POST.get('telefone3')
+        renda = request.POST.get('renda')
+        data_nascimento = request.POST.get('data_nascimento')
+        logradouro = request.POST.get('logradouro')
+        bairro = request.POST.get('bairro')
+        estado = request.POST.get('estado')
+        cep = request.POST.get('cep')
 
-        resultado = cadastrar_cliente(nome, cpf, cidade, telefone)
+        resultado = cadastrar_cliente(nome, cpf, cidade, telefone, telefone2, telefone3, renda, data_nascimento, logradouro, bairro, estado, cep)
 
         if resultado == "sucesso":
             messages.success(request, "Cliente cadastrado com sucesso!")
@@ -42,7 +50,7 @@ def cadastrar_cliente_view(request):
         elif resultado == "cpf_existente":
             messages.error(request, "CPF já cadastrado.")
 
-        # 👇 ESSENCIAL
+        # ESSENCIAL
         return render(request, 'clientes/cadastrar_clientes.html')
 
     return render(request, 'clientes/cadastrar_clientes.html')

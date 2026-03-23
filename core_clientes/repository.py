@@ -1,15 +1,15 @@
 import sqlite3
 from database.conexao import conectar_banco
 
-def inserir_cliente(nome, cpf, cidade, telefone):
+def inserir_cliente(nome, cpf, cidade, telefone, telefone2, telefone3, renda, data_nascimento, logradouro, bairro, estado, cep):
     conexao = conectar_banco()
     cursor = conexao.cursor()
 
     try:
         cursor.execute("""
-        INSERT INTO clientes (nome, cpf, cidade, telefone) 
-        VALUES (?, ?, ?, ?)
-        """, (nome, cpf, cidade, telefone))
+        INSERT INTO clientes (nome, cpf, cidade, telefone, telefone2, telefone3, renda, data_nascimento, logradouro, bairro, estado, cep) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (nome, cpf, cidade, telefone, telefone2, telefone3, renda, data_nascimento, logradouro, bairro, estado, cep))
 
         conexao.commit()
         return "sucesso"
@@ -46,16 +46,16 @@ def listar_todos_clientes():
     finally:
         conexao.close()
 
-def atualizar_cliente(id_cliente, nome, cpf, cidade, telefone):
+def atualizar_cliente(id_cliente, nome, cpf, cidade, telefone, telefone2, telefone3, renda, data_nascimento, logradouro, bairro, estado, cep):
     conexao = conectar_banco()
     cursor = conexao.cursor()
 
     try:
         cursor.execute("""
         UPDATE clientes 
-        SET nome = ?, cpf = ?, cidade = ?, telefone = ?
+        SET nome = ?, cpf = ?, cidade = ?, telefone = ?, telefone2 = ?, telefone3 = ?, renda = ?, data_nascimento = ?, logradouro = ?, bairro = ?, estado = ?, cep = ?
         WHERE id_cliente = ?
-        """, (nome, cpf, cidade, telefone, id_cliente))
+        """, (nome, cpf, cidade, telefone, telefone2, telefone3, renda, data_nascimento, logradouro, bairro, estado, cep, id_cliente))
 
         conexao.commit()
 
