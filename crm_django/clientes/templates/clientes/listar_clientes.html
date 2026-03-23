@@ -6,6 +6,7 @@
     <h1 class="mb-4">Lista de Clientes</h1>
 
     <a href="/clientes/cadastrar/" class="btn btn-primary mb-3">Novo Cliente</a>
+    <a href="{% url 'detalhes_cliente' cpf_aleatorio %}" class="btn btn-primary mb-3">Tabular</a>
 
     {% if clientes %}
         <table class="table table-striped">

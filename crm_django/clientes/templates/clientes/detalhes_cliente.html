@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Detalhes do Cliente</h2>
+
+<p><strong>Nome:</strong> {{ cliente.nome }}</p>
+<p><strong>CPF:</strong> {{ cliente.cpf }}</p>
+<p><strong>Cidade:</strong> {{ cliente.cidade }}</p>
+<p><strong>Telefone:</strong> {{ cliente.telefone }}</p>
+
+<hr>
+
+<div class="d-flex justify-content-between">
+
+    {% if anterior %}
+        <a href="/clientes/detalhes/{{ anterior.cpf }}/" class="btn btn-primary">
+            ← Anterior
+        </a>
+    {% else %}
+        <span></span>
+    {% endif %}
+
+    {% if proximo %}
+        <a href="/clientes/detalhes/{{ proximo.cpf }}/" class="btn btn-primary">
+            Próximo →
+        </a>
+    {% endif %}
+
+</div>
+
+<br>
+
+<a href="/clientes/" class="btn btn-dark">Voltar</a>
+
+{% endblock %}

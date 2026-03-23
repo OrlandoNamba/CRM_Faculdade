@@ -8,9 +8,17 @@ from core_clientes.services import deletar_cliente_service
 def listar_clientes_view(request):
     clientes = obter_todos_clientes()
 
+    cpf_aleatorio = None
+
+    if clientes:
+        import random
+        cliente_aleatorio = random.choice(clientes)
+        cpf_aleatorio = cliente_aleatorio['cpf']
+
     return render(request, 'clientes/listar_clientes.html', 
-                  {'clientes': clientes
-    })
+                  {'clientes': clientes, 
+                   'cpf_aleatorio': cpf_aleatorio}
+    )
 
 def cadastrar_cliente_view(request):
     if request.method == 'POST':
@@ -73,3 +81,28 @@ def deletar_cliente_view(request, cpf):
     if request.method == 'POST':
         deletar_cliente_service(cpf)
         return redirect('/clientes/')
+    
+def detalhes_cliente_view(request, cpf):
+    cliente = obter_cliente_por_cpf(cpf)
+
+    if not cliente:
+        return redirect('/clientes/')
+
+    clientes = obter_todos_clientes()
+
+    anterior = None
+    proximo = None
+
+    for i, c in enumerate(clientes):
+        if c['cpf'] == cpf:
+            if i > 0:
+                anterior = clientes[i - 1]
+            if i < len(clientes) - 1:
+                proximo = clientes[i + 1]
+            break
+
+    return render(request, 'clientes/detalhes_cliente.html', {
+        'cliente': cliente,
+        'anterior': anterior,
+        'proximo': proximo
+    })
