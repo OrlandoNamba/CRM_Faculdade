@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load l10n %}
+
 {% block content %}
 
 <h2>Detalhes do Cliente</h2>
@@ -34,7 +36,7 @@
 
 <p><strong>Renda:</strong>
     {% if cliente.renda %}
-        {{ cliente.renda }}
+        R$ {{ cliente.renda|floatformat:2|localize }}
     {% else %}
         Não informada
     {% endif %}
