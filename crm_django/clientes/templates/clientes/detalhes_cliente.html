@@ -6,8 +6,79 @@
 
 <p><strong>Nome:</strong> {{ cliente.nome }}</p>
 <p><strong>CPF:</strong> {{ cliente.cpf }}</p>
-<p><strong>Cidade:</strong> {{ cliente.cidade }}</p>
 <p><strong>Telefone:</strong> {{ cliente.telefone }}</p>
+
+<p><strong>Telefone 2:</strong>
+    {% if cliente.telefone2 %}
+        {{ cliente.telefone2 }}
+    {% else %}
+        Não informado
+    {% endif %}
+</p>
+
+<p><strong>Telefone 3:</strong>
+    {% if cliente.telefone3 %}
+        {{ cliente.telefone3 }}
+    {% else %}
+        Não informado
+    {% endif %}
+</p>
+
+<p><strong>Data de Nascimento:</strong>
+    {% if cliente.data_nascimento %}
+        {{ cliente.data_nascimento }}
+    {% else %}
+        Não informada
+    {% endif %}
+</p>
+
+<p><strong>Renda:</strong>
+    {% if cliente.renda %}
+        {{ cliente.renda }}
+    {% else %}
+        Não informada
+    {% endif %}
+</p>
+
+<p><strong>Logradouro:</strong>
+    {% if cliente.logradouro %}
+        {{ cliente.logradouro }}
+    {% else %}
+        Não informado
+    {% endif %}
+</p>
+
+<p><strong>Bairro:</strong>
+    {% if cliente.bairro %}
+        {{ cliente.bairro }}
+    {% else %}
+        Não informado
+    {% endif %}
+</p>
+
+<p><strong>Cidade:</strong>
+    {% if cliente.cidade %}
+        {{ cliente.cidade }}
+    {% else %}
+        Não informada
+    {% endif %}
+</p>
+
+<p><strong>Estado:</strong>
+    {% if cliente.estado %}
+        {{ cliente.estado }}
+    {% else %}
+        Não informado
+    {% endif %}
+</p>
+
+<p><strong>CEP:</strong>
+    {% if cliente.cep %}
+        {{ cliente.cep }}
+    {% else %}
+        Não informado
+    {% endif %}
+</p>
 
 <hr>
 

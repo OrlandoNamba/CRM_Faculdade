@@ -25,7 +25,7 @@ def buscar_cliente_por_cpf(cpf):
     cursor = conexao.cursor()
 
     try:
-        cursor.execute("SELECT id_cliente, nome, cpf, cidade, telefone FROM clientes WHERE cpf = ?", (cpf,))
+        cursor.execute("SELECT * FROM clientes WHERE cpf = ?", (cpf,))
         cliente = cursor.fetchone()
         return cliente
     finally:
@@ -36,7 +36,7 @@ def listar_todos_clientes():
     cursor = conexao.cursor()
 
     try:
-        cursor.execute("SELECT id_cliente, nome, cpf, cidade, telefone FROM clientes")
+        cursor.execute("SELECT * FROM clientes")
         clientes = cursor.fetchall()
         return clientes
     
