@@ -4,83 +4,89 @@
 
 {% block content %}
 
-<h2>Detalhes do Cliente</h2>
+<div class="container">
 
-<p><strong>Nome:</strong> {{ cliente.nome }}</p>
-<p><strong>CPF:</strong> {{ cliente.cpf }}</p>
-<p><strong>Telefone:</strong> {{ cliente.telefone }}</p>
+    <h2>Detalhes do Cliente</h2>
 
-<p><strong>Telefone 2:</strong>
-    {% if cliente.telefone2 %}
-        {{ cliente.telefone2 }}
-    {% else %}
-        Não informado
-    {% endif %}
-</p>
+    <div class="row">
+        <div class="col-md-4">
+            <strong>Nome:</strong><br>
+            {{ cliente.nome }}
+        </div>
 
-<p><strong>Telefone 3:</strong>
-    {% if cliente.telefone3 %}
-        {{ cliente.telefone3 }}
-    {% else %}
-        Não informado
-    {% endif %}
-</p>
+        <div class="col-md-4">
+            <strong>CPF:</strong><br>
+            {{ cliente.cpf }}
+        </div>
 
-<p><strong>Data de Nascimento:</strong>
-    {% if cliente.data_nascimento %}
-        {{ cliente.data_nascimento }}
-    {% else %}
-        Não informada
-    {% endif %}
-</p>
+        <div class="col-md-4">
+            <strong>Telefone:</strong><br>
+            {{ cliente.telefone }}
+        </div>
+    </div>
 
-<p><strong>Renda:</strong>
-    {% if cliente.renda %}
-        R$ {{ cliente.renda|floatformat:2|localize }}
-    {% else %}
-        Não informada
-    {% endif %}
-</p>
+    <br>
 
-<p><strong>Logradouro:</strong>
-    {% if cliente.logradouro %}
-        {{ cliente.logradouro }}
-    {% else %}
-        Não informado
-    {% endif %}
-</p>
+    <div class="row">
+        <div class="col-md-4">
+            <strong>Telefone 2:</strong><br>
+            {{ cliente.telefone2|default:"Não informado" }}
+        </div>
 
-<p><strong>Bairro:</strong>
-    {% if cliente.bairro %}
-        {{ cliente.bairro }}
-    {% else %}
-        Não informado
-    {% endif %}
-</p>
+        <div class="col-md-4">
+            <strong>Telefone 3:</strong><br>
+            {{ cliente.telefone3|default:"Não informado" }}
+        </div>
 
-<p><strong>Cidade:</strong>
-    {% if cliente.cidade %}
-        {{ cliente.cidade }}
-    {% else %}
-        Não informada
-    {% endif %}
-</p>
+        <div class="col-md-4">
+            <strong>Data de Nascimento:</strong><br>
+            {{ cliente.data_nascimento|default:"Não informada" }}
+        </div>
+    </div>
 
-<p><strong>Estado:</strong>
-    {% if cliente.estado %}
-        {{ cliente.estado }}
-    {% else %}
-        Não informado
-    {% endif %}
-</p>
+    <br>
 
-<p><strong>CEP:</strong>
-    {% if cliente.cep %}
-        {{ cliente.cep }}
-    {% else %}
-        Não informado
-    {% endif %}
-</p>
+    <div class="row">
+        <div class="col-md-4">
+            <strong>Renda:</strong><br>
+            {% if cliente.renda %}
+                R$ {{ cliente.renda|floatformat:2|localize }}
+            {% else %}
+                Não informada
+            {% endif %}
+        </div>
+
+        <div class="col-md-4">
+            <strong>Logradouro:</strong><br>
+            {{ cliente.logradouro|default:"Não informado" }}
+        </div>
+
+        <div class="col-md-4">
+            <strong>Bairro:</strong><br>
+            {{ cliente.bairro|default:"Não informado" }}
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col-md-4">
+            <strong>Cidade:</strong><br>
+            {{ cliente.cidade|default:"Não informada" }}
+        </div>
+
+        <div class="col-md-4">
+            <strong>Estado:</strong><br>
+            {{ cliente.estado|default:"Não informado" }}
+        </div>
+
+        <div class="col-md-4">
+            <strong>CEP:</strong><br>
+            {{ cliente.cep|default:"Não informado" }}
+        </div>
+    </div>
+
+</div>
 
 <hr>
 
