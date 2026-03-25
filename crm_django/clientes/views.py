@@ -1,3 +1,4 @@
+import pandas as pd
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from core_clientes.services import obter_todos_clientes
@@ -22,6 +23,47 @@ def listar_clientes_view(request):
 
 def cadastrar_cliente_view(request):
     if request.method == 'POST':
+
+        # =============================
+        # IMPORTAÇÃO POR EXCEL
+        # =============================
+        if 'arquivo_excel' in request.FILES:
+            arquivo = request.FILES['arquivo_excel']
+
+            try:
+                df = pd.read_excel(arquivo)
+
+                for _, linha in df.iterrows():
+                    nome = linha.get('nome')
+                    cpf = str(linha.get('cpf'))
+                    cidade = linha.get('cidade')
+                    telefone = str(linha.get('telefone'))
+                    telefone2 = linha.get('telefone2')
+                    telefone3 = linha.get('telefone3')
+                    renda = linha.get('renda')
+                    data_nascimento = linha.get('data_nascimento')
+                    logradouro = linha.get('logradouro')
+                    bairro = linha.get('bairro')
+                    estado = linha.get('estado')
+                    cep = linha.get('cep')
+
+                    cadastrar_cliente(
+                        nome, cpf, cidade, telefone,
+                        telefone2, telefone3, renda,
+                        data_nascimento, logradouro,
+                        bairro, estado, cep
+                    )
+
+                messages.success(request, "Clientes importados com sucesso!")
+                return redirect('/clientes/')
+
+            except Exception as e:
+                messages.error(request, f"Erro ao importar Excel: {e}")
+                return render(request, 'clientes/cadastrar_clientes.html')
+
+        # =============================
+        # CADASTRO MANUAL
+        # =============================
         nome = request.POST.get('nome')
         cpf = request.POST.get('cpf')
         cidade = request.POST.get('cidade')
@@ -35,7 +77,12 @@ def cadastrar_cliente_view(request):
         estado = request.POST.get('estado')
         cep = request.POST.get('cep')
 
-        resultado = cadastrar_cliente(nome, cpf, cidade, telefone, telefone2, telefone3, renda, data_nascimento, logradouro, bairro, estado, cep)
+        resultado = cadastrar_cliente(
+            nome, cpf, cidade, telefone,
+            telefone2, telefone3, renda,
+            data_nascimento, logradouro,
+            bairro, estado, cep
+        )
 
         if resultado == "sucesso":
             messages.success(request, "Cliente cadastrado com sucesso!")
@@ -50,7 +97,6 @@ def cadastrar_cliente_view(request):
         elif resultado == "cpf_existente":
             messages.error(request, "CPF já cadastrado.")
 
-        # ESSENCIAL
         return render(request, 'clientes/cadastrar_clientes.html')
 
     return render(request, 'clientes/cadastrar_clientes.html')
