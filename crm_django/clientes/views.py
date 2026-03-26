@@ -1,4 +1,6 @@
 import pandas as pd
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from core_clientes.services import obter_todos_clientes
@@ -6,10 +8,31 @@ from core_clientes.services import cadastrar_cliente
 from core_clientes.services import obter_cliente_por_cpf, atualizar_cliente_service
 from core_clientes.services import deletar_cliente_service
 
+@login_required
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        senha = request.POST.get('senha')
+
+        user = authenticate(request, username=username, password=senha)
+
+        if user is not None:
+            login(request, user)
+            return redirect('/clientes/')
+        else:
+            messages.error(request, 'Usuário ou senha inválidos')
+
+    return render(request, 'login.html')
+
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect('/login/')
 
 # ========================================
 # FUNÇÃO AUXILIAR (IMPORT PROFISSIONAL)
 # ========================================
+@login_required
 def pegar_valor_coluna(linha, *nomes):
     for nome in nomes:
         if nome in linha:
@@ -18,7 +41,7 @@ def pegar_valor_coluna(linha, *nomes):
                 return valor
     return None
 
-
+@login_required
 def listar_clientes_view(request):
     clientes = obter_todos_clientes()
 
@@ -34,7 +57,7 @@ def listar_clientes_view(request):
         'cpf_aleatorio': cpf_aleatorio
     })
 
-
+@login_required
 def cadastrar_cliente_view(request):
     if request.method == 'POST':
 
@@ -219,7 +242,7 @@ def cadastrar_cliente_view(request):
 
     return render(request, 'clientes/cadastrar_clientes.html')
 
-
+@login_required
 def editar_cliente_view(request, cpf):
     cliente = obter_cliente_por_cpf(cpf)
 
@@ -251,13 +274,13 @@ def editar_cliente_view(request, cpf):
         'cliente': cliente
     })
 
-
+@login_required
 def deletar_cliente_view(request, cpf):
     if request.method == 'POST':
         deletar_cliente_service(cpf)
         return redirect('/clientes/')
 
-
+@login_required
 def detalhes_cliente_view(request, cpf):
     cliente = obter_cliente_por_cpf(cpf)
 
