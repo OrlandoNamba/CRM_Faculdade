@@ -1,6 +1,7 @@
 import pandas as pd
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from core_clientes.services import obter_todos_clientes
@@ -8,23 +9,27 @@ from core_clientes.services import cadastrar_cliente
 from core_clientes.services import obter_cliente_por_cpf, atualizar_cliente_service
 from core_clientes.services import deletar_cliente_service
 
-@login_required
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('/clientes/')
+
+    next_url = request.GET.get('next', '/clientes/')
+
     if request.method == 'POST':
         username = request.POST.get('username')
         senha = request.POST.get('senha')
+        next_url = request.POST.get('next', '/clientes/')
 
         user = authenticate(request, username=username, password=senha)
 
         if user is not None:
             login(request, user)
-            return redirect('/clientes/')
+            return redirect(next_url)
         else:
             messages.error(request, 'Usuário ou senha inválidos')
 
-    return render(request, 'login.html')
+    return render(request, 'login.html', {'next': next_url})
 
-@login_required
 def logout_view(request):
     logout(request)
     return redirect('/login/')
@@ -32,7 +37,6 @@ def logout_view(request):
 # ========================================
 # FUNÇÃO AUXILIAR (IMPORT PROFISSIONAL)
 # ========================================
-@login_required
 def pegar_valor_coluna(linha, *nomes):
     for nome in nomes:
         if nome in linha:
@@ -305,3 +309,32 @@ def detalhes_cliente_view(request, cpf):
         'anterior': anterior,
         'proximo': proximo
     })
+
+@login_required
+def criar_usuario_view(request):
+    if not request.user.is_superuser:
+        return redirect('/clientes/')
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        senha = request.POST.get('senha')
+        admin = request.POST.get('admin')
+
+        if User.objects.filter(username=username).exists():
+            messages.error(request, 'Usuário já existe')
+            return render(request, 'criar_usuario.html')
+
+        user = User.objects.create_user(
+            username=username,
+            password=senha
+        )
+
+        if admin == 'on':
+            user.is_superuser = True
+            user.is_staff = True
+            user.save()
+
+        messages.success(request, 'Usuário criado com sucesso!')
+        return redirect('/clientes/')
+
+    return render(request, 'criar_usuario.html')

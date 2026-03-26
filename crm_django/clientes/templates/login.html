@@ -11,6 +11,7 @@
 
     <form method="POST">
         {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
 
         <div class="mb-3">
             <label>Usuário</label>
@@ -26,6 +27,7 @@
             Entrar
         </button>
     </form>
+</div>
 
     {% if messages %}
         {% for message in messages %}

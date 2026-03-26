@@ -12,6 +12,14 @@
         {% if request.resolver_match.url_name != 'listar_clientes' %}
             <a href="{% url 'listar_clientes' %}" class="btn btn-light btn-sm">Lista de Clientes</a>
         {% endif %}
+
+        <span class="navbar-text text-white me-3">
+            {{ request.user.username }}
+        </span>
+
+        <a href="/logout/" class="btn btn-light btn-sm">
+            Logout
+        </a>
     </div>
 </nav>
 

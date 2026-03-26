@@ -1,0 +1,20 @@
+<h3>Criar Usuário</h3>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label>Usuário</label>
+    <input type="text" name="username" class="form-control">
+
+    <label>Senha</label>
+    <input type="password" name="senha" class="form-control">
+
+    <label>
+        <input type="checkbox" name="admin">
+        Tornar administrador
+    </label>
+
+    <button type="submit" class="btn btn-dark">
+        Criar usuário
+    </button>
+</form>
