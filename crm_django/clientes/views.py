@@ -313,7 +313,7 @@ def detalhes_cliente_view(request, cpf):
 @login_required
 def criar_usuario_view(request):
     if not request.user.is_superuser:
-        return redirect('/clientes/')
+        return redirect('listar_clientes')
 
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -322,19 +322,51 @@ def criar_usuario_view(request):
 
         if User.objects.filter(username=username).exists():
             messages.error(request, 'Usuário já existe')
-            return render(request, 'criar_usuario.html')
+        else:
+            user = User.objects.create_user(
+                username=username,
+                password=senha
+            )
 
-        user = User.objects.create_user(
-            username=username,
-            password=senha
-        )
+            if admin == 'on':
+                user.is_superuser = True
+                user.is_staff = True
+                user.save()
 
-        if admin == 'on':
+            messages.success(request, 'Usuário criado com sucesso!')
+            return redirect('criar_usuario')
+
+    usuarios = User.objects.all().order_by('username')
+
+    return render(request, 'criar_usuario.html', {
+        'usuarios': usuarios
+    })
+
+@login_required
+def tornar_admin_view(request, user_id):
+    if request.method == 'POST':
+        user = User.objects.get(id=user_id)
+
+        if user.is_superuser:
+            user.is_superuser = False
+            user.is_staff = False
+        else:
             user.is_superuser = True
             user.is_staff = True
-            user.save()
 
-        messages.success(request, 'Usuário criado com sucesso!')
-        return redirect('/clientes/')
+        user.save()
 
-    return render(request, 'criar_usuario.html')
+    return redirect('criar_usuario')
+
+
+@login_required
+def excluir_usuario_view(request, user_id):
+    if request.method == 'POST':
+        if request.user.id == user_id:
+            messages.error(request, 'Você não pode excluir seu próprio usuário')
+            return redirect('criar_usuario')
+
+        user = User.objects.get(id=user_id)
+        user.delete()
+
+    return redirect('criar_usuario')

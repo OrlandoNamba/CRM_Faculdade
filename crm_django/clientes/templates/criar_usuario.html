@@ -1,20 +1,86 @@
-<h3>Criar Usuário</h3>
+{% extends 'base.html' %}
 
-<form method="POST">
-    {% csrf_token %}
+{% block content %}
 
-    <label>Usuário</label>
-    <input type="text" name="username" class="form-control">
+<h3 class="mb-4">Criar Usuário</h3>
 
-    <label>Senha</label>
-    <input type="password" name="senha" class="form-control">
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
 
-    <label>
-        <input type="checkbox" name="admin">
-        Tornar administrador
-    </label>
+        <form method="POST">
+            {% csrf_token %}
 
-    <button type="submit" class="btn btn-dark">
-        Criar usuário
-    </button>
-</form>
+            <div class="mb-3">
+                <label class="form-label">Usuário</label>
+                <input type="text" name="username" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Senha</label>
+                <input type="password" name="senha" class="form-control" required>
+            </div>
+
+            <div class="form-check mb-3">
+                <input type="checkbox" name="admin" class="form-check-input">
+                <label class="form-check-label">
+                    Tornar administrador
+                </label>
+            </div>
+
+            <button type="submit" class="btn btn-dark">
+                Criar usuário
+            </button>
+
+        </form>
+
+    </div>
+</div>
+
+
+<h4 class="mb-3">Usuários cadastrados</h4>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Usuário</th>
+                    <th>Administrador</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for u in usuarios %}
+                <tr>
+                    <td>{{ u.username }}</td>
+                    <td>
+                        <form method="POST" action="{% url 'tornar_admin' u.id %}">
+                            {% csrf_token %}
+                            <div class="form-check form-switch">
+                                <input 
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    onchange="this.form.submit()"
+                                    {% if u.is_superuser %}checked{% endif %}
+                                >
+                            </div>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="POST" action="{% url 'excluir_usuario' u.id %}">
+                            {% csrf_token %}
+                            <button class="btn btn-danger btn-sm">
+                                Excluir
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+{% endblock %}
