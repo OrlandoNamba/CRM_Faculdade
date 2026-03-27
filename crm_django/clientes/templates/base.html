@@ -16,9 +16,11 @@
                 Clientes
             </a>
 
-            <a href="{% url 'criar_usuario' %}" class="btn btn-light btn-sm">
-                Usuários
-            </a>
+            {% if request.user.is_staff %}
+                <a href="{% url 'criar_usuario' %}" class="btn btn-light btn-sm">
+                    Usuários
+                </a>
+            {% endif %}
         </div>
 
         <div class="d-flex align-items-center gap-3 ms-auto">

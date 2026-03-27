@@ -2,7 +2,7 @@ import pandas as pd
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from core_clientes.services import obter_todos_clientes
 from core_clientes.services import cadastrar_cliente
@@ -344,8 +344,11 @@ def criar_usuario_view(request):
 
 @login_required
 def tornar_admin_view(request, user_id):
+    if not request.user.is_superuser:
+        return redirect('listar_clientes')
+
     if request.method == 'POST':
-        user = User.objects.get(id=user_id)
+        user = get_object_or_404(User, id=user_id)
 
         if user.is_superuser:
             user.is_superuser = False
@@ -361,12 +364,15 @@ def tornar_admin_view(request, user_id):
 
 @login_required
 def excluir_usuario_view(request, user_id):
+    if not request.user.is_superuser:
+        return redirect('listar_clientes')
+
     if request.method == 'POST':
         if request.user.id == user_id:
             messages.error(request, 'Você não pode excluir seu próprio usuário')
             return redirect('criar_usuario')
 
-        user = User.objects.get(id=user_id)
+        user = get_object_or_404(User, id=user_id)
         user.delete()
 
     return redirect('criar_usuario')
