@@ -2,10 +2,11 @@ from datetime import datetime
 import sqlite3
 from database.conexao import conectar_banco
 from validacoes.validacoes import validar_cpf, validar_telefone
-from core_clientes.repository import deletar_cliente_por_cpf, inserir_cliente
+from core_clientes.repository import deletar_cliente_por_id, inserir_cliente
 from core_clientes.repository import buscar_cliente_por_cpf
 from core_clientes.repository import listar_todos_clientes
 from core_clientes.repository import atualizar_cliente
+from core_clientes.repository import obter_cliente_por_id
 
 def cadastrar_cliente(nome, cpf, cidade, telefone, telefone2, telefone3, renda, data_nascimento, logradouro, bairro, estado, cep):
 
@@ -49,6 +50,9 @@ def obter_todos_clientes():
 
     return clientes
 
+def buscar_cliente_por_id_service(id_cliente):
+    return obter_cliente_por_id(id_cliente)
+
 def atualizar_cliente_service(id_cliente, nome, cpf, cidade, telefone, telefone2, telefone3, renda, data_nascimento, logradouro, bairro, estado, cep):
     if not validar_cpf(cpf):
         return "cpf_invalido"
@@ -60,5 +64,5 @@ def atualizar_cliente_service(id_cliente, nome, cpf, cidade, telefone, telefone2
 
     return resultado
 
-def deletar_cliente_service(cpf):
-    return deletar_cliente_por_cpf(cpf)
+def deletar_cliente_service(id_cliente):
+    return deletar_cliente_por_id(id_cliente)

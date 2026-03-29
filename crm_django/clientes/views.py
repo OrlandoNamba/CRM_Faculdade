@@ -6,8 +6,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from core_clientes.services import obter_todos_clientes
 from core_clientes.services import cadastrar_cliente
-from core_clientes.services import obter_cliente_por_cpf, atualizar_cliente_service
+from core_clientes.services import obter_cliente_por_cpf, atualizar_cliente_service, obter_cliente_por_id
+from core_clientes.repository import marcar_interesse, remover_interesse, liberar_cliente, listar_todos_clientes
+from datetime import datetime, timedelta
 from core_clientes.services import deletar_cliente_service
+from datetime import datetime
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -47,18 +50,43 @@ def pegar_valor_coluna(linha, *nomes):
 
 @login_required
 def listar_clientes_view(request):
-    clientes = obter_todos_clientes()
+    clientes = listar_todos_clientes()
+    clientes_filtrados = []
 
-    cpf_aleatorio = None
+    for cliente in clientes:
 
-    if clientes:
-        import random
-        cliente_aleatorio = random.choice(clientes)
-        cpf_aleatorio = cliente_aleatorio['cpf']
+        interessado = cliente.get('interessado')
+        usuario_interesse = cliente.get('usuario_interesse')
+        data_interesse = cliente.get('data_interesse')
+
+        # Cliente livre
+        if not interessado:
+            clientes_filtrados.append(cliente)
+            continue
+
+        # Admin vê tudo
+        if request.user.is_superuser:
+            clientes_filtrados.append(cliente)
+            continue
+
+        # Usuário dono do interesse
+        if usuario_interesse == request.user.id:
+            clientes_filtrados.append(cliente)
+            continue
+
+        # Verificar se passou 5 dias
+        if data_interesse:
+            data_interesse = datetime.strptime(
+                data_interesse,
+                "%Y-%m-%d %H:%M:%S"
+            )
+
+            if datetime.now() > data_interesse + timedelta(days=5):
+                liberar_cliente(cliente['id_cliente'])
+                clientes_filtrados.append(cliente)
 
     return render(request, 'clientes/listar_clientes.html', {
-        'clientes': clientes,
-        'cpf_aleatorio': cpf_aleatorio
+        'clientes': clientes_filtrados
     })
 
 @login_required
@@ -247,8 +275,8 @@ def cadastrar_cliente_view(request):
     return render(request, 'clientes/cadastrar_clientes.html')
 
 @login_required
-def editar_cliente_view(request, cpf):
-    cliente = obter_cliente_por_cpf(cpf)
+def editar_cliente_view(request, id_cliente):
+    cliente = obter_cliente_por_id(id_cliente)
 
     if not cliente:
         return redirect('/clientes/')
@@ -279,25 +307,37 @@ def editar_cliente_view(request, cpf):
     })
 
 @login_required
-def deletar_cliente_view(request, cpf):
+def deletar_cliente_view(request, id_cliente):
     if request.method == 'POST':
-        deletar_cliente_service(cpf)
+        deletar_cliente_service(id_cliente)
         return redirect('/clientes/')
 
 @login_required
-def detalhes_cliente_view(request, cpf):
-    cliente = obter_cliente_por_cpf(cpf)
+def detalhes_cliente_view(request, id_cliente):
+    cliente = obter_cliente_por_id(id_cliente)
 
     if not cliente:
         return redirect('/clientes/')
 
+    # NOVA PARTE — salvar interesse
+    if request.method == 'POST':
+        interesse = request.POST.get('interesse')
+
+        if interesse == 'on':
+            marcar_interesse(cliente['id_cliente'], request.user.id)
+        else:
+            remover_interesse(cliente['id_cliente'])
+
+        return redirect(f'/clientes/detalhes/{cliente["id_cliente"]}/')
+
+    # Parte que você já tinha (anterior / próximo)
     clientes = obter_todos_clientes()
 
     anterior = None
     proximo = None
 
     for i, c in enumerate(clientes):
-        if c['cpf'] == cpf:
+        if c['id_cliente'] == id_cliente:
             if i > 0:
                 anterior = clientes[i - 1]
             if i < len(clientes) - 1:
