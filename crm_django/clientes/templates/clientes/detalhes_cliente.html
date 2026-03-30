@@ -90,8 +90,8 @@
 
 <hr>
 
+<!-- BOTÕES -->
 <div class="d-flex justify-content-between">
-
     {% if anterior %}
         <a href="{% url 'detalhes_cliente' anterior.id_cliente %}" class="btn btn-primary">
             ← Anterior
@@ -100,38 +100,38 @@
         <span></span>
     {% endif %}
 
-    <div>
-        <h4 class="mt-4">Status do Cliente</h4>
-
-        <form method="POST">
-            {% csrf_token %}
-
-            <div class="mb-2">
-                <select name="status_cliente" class="form-select form-select-sm">
-                    <option value="sem_interesse"
-                        {% if not cliente.interessado %} selected {% endif %}>
-                        Sem interesse
-                    </option>
-
-                    <option value="em_contato"
-                        {% if cliente.interessado %} selected {% endif %}>
-                        Em contato
-                    </option>
-                </select>
-            </div>
-
-            <button class="btn btn-primary btn-sm">
-                Salvar Status
-            </button>
-        </form>
-    </div>
-
     {% if proximo %}
         <a href="{% url 'detalhes_cliente' proximo.id_cliente %}" class="btn btn-primary">
             Próximo →
         </a>
     {% endif %}
+</div>
 
+<!-- STATUS CENTRALIZADO -->
+<div class="text-center mt-4">
+    <h4>Status do Cliente</h4>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="mb-2">
+            <select name="status_cliente" class="form-select w-25 mx-auto">
+                <option value="sem_interesse"
+                    {% if not cliente.interessado %} selected {% endif %}>
+                    Sem interesse
+                </option>
+
+                <option value="em_contato"
+                    {% if cliente.interessado %} selected {% endif %}>
+                    Em contato
+                </option>
+            </select>
+        </div>
+
+        <button class="btn btn-primary btn-sm">
+            Salvar Status
+        </button>
+    </form>
 </div>
 
 <br>
