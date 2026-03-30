@@ -1,3 +1,5 @@
+from urllib import request
+
 import pandas as pd
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -285,13 +287,29 @@ def editar_cliente_view(request, id_cliente):
         nome = request.POST.get('nome')
         cidade = request.POST.get('cidade')
         telefone = request.POST.get('telefone')
+        telefone2 = request.POST.get('telefone2')
+        telefone3 = request.POST.get('telefone3')
+        renda = request.POST.get('renda')
+        data_nascimento = request.POST.get('data_nascimento')
+        logradouro = request.POST.get('logradouro')
+        bairro = request.POST.get('bairro')
+        estado = request.POST.get('estado')
+        cep = request.POST.get('cep')
 
         resultado = atualizar_cliente_service(
             cliente['id_cliente'],
             nome,
             cliente['cpf'],
             cidade,
-            telefone
+            telefone,
+            telefone2,
+            telefone3,
+            renda,
+            data_nascimento,
+            logradouro,
+            bairro,
+            estado,
+            cep
         )
 
         if resultado == "sucesso":
