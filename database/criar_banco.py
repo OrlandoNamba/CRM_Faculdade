@@ -18,7 +18,10 @@ def criar_tabelas():
         telefone2 VARCHAR(15),
         telefone3 VARCHAR(15),
         renda DECIMAL(10,2),
-        data_nascimento DATE
+        data_nascimento DATE,
+        interessado INTEGER DEFAULT 0,
+        usuario_interesse INTEGER,
+        data_interesse TEXT
     )
     """)
 

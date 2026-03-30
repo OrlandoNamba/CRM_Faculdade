@@ -101,24 +101,27 @@
     {% endif %}
 
     <div>
-        <h4 class="mt-4">Interesse no Cliente</h4>
+        <h4 class="mt-4">Status do Cliente</h4>
 
         <form method="POST">
             {% csrf_token %}
 
-            <div class="form-check">
-                <input type="checkbox"
-                       name="interesse"
-                       class="form-check-input"
-                       {% if cliente.interessado %} checked {% endif %}>
+            <div class="mb-2">
+                <select name="status_cliente" class="form-select form-select-sm">
+                    <option value="sem_interesse"
+                        {% if not cliente.interessado %} selected {% endif %}>
+                        Sem interesse
+                    </option>
 
-                <label class="form-check-label">
-                    Tenho interesse neste cliente
-                </label>
+                    <option value="em_contato"
+                        {% if cliente.interessado %} selected {% endif %}>
+                        Em contato
+                    </option>
+                </select>
             </div>
 
-            <button class="btn btn-primary btn-sm mt-2">
-                Salvar Interesse
+            <button class="btn btn-primary btn-sm">
+                Salvar Status
             </button>
         </form>
     </div>

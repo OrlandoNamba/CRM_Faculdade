@@ -319,18 +319,18 @@ def detalhes_cliente_view(request, id_cliente):
     if not cliente:
         return redirect('/clientes/')
 
-    # NOVA PARTE — salvar interesse
+    # SALVAR STATUS DO CLIENTE
     if request.method == 'POST':
-        interesse = request.POST.get('interesse')
+        status_cliente = request.POST.get('status_cliente')
 
-        if interesse == 'on':
+        if status_cliente == 'em_contato':
             marcar_interesse(cliente['id_cliente'], request.user.id)
         else:
             remover_interesse(cliente['id_cliente'])
 
         return redirect(f'/clientes/detalhes/{cliente["id_cliente"]}/')
 
-    # Parte que você já tinha (anterior / próximo)
+    # Parte anterior / próximo
     clientes = obter_todos_clientes()
 
     anterior = None
