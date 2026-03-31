@@ -1,2 +1,8 @@
 database/crm.db
 __pycache__/
+build/
+dist/
+start_crm.spec
+start_crm.exe
+dist/
+dist/start_crm/
