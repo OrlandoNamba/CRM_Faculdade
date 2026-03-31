@@ -12,8 +12,11 @@ def abrir_navegador():
 if __name__ == "__main__":
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'crm_django.settings')
 
+    # cria banco e tabelas
     criar_tabelas()
 
-    threading.Timer(1.5, abrir_navegador).start()
+    # abre navegador
+    threading.Timer(2, abrir_navegador).start()
 
-    execute_from_command_line(['manage.py', 'runserver'])
+    # roda servidor sem autoreload (IMPORTANTE)
+    execute_from_command_line(['manage.py', 'runserver', '--noreload'])
